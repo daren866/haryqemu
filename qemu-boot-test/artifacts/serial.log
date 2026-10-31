@@ -1,0 +1,8 @@
+
+QEMU x86-64 BOOT TEST
+=====================
+Stage 1 bootloader entered at 0000:7C00
+VGA text console via INT 10h: OK
+COM1 serial 115200 8N1: OK
+CPU: real mode, TCG translation
+BOOT TEST PASSED
