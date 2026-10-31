@@ -12,7 +12,8 @@ struct BootConsoleView: View {
                 Divider()
                 controlPanel
             }
-            .navigationBarTitle("QEMU 引导测试", displayMode: .inline)
+            .navigationTitle("QEMU 引导测试")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack)
     }
@@ -149,8 +150,7 @@ private struct InfoChip: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             Text(value)
-                .font(.caption)
-                .fontWeight(.semibold)
+                .font(.caption.weight(.semibold))
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 5)

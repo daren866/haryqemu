@@ -15,7 +15,8 @@ struct EmulatorDisplayView: View {
                 }
                 .padding()
             }
-            .navigationTitle("模拟器画面", displayMode: .inline)
+            .navigationTitle("模拟器画面")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack)
     }
@@ -76,8 +77,7 @@ struct EmulatorDisplayView: View {
                 .fill(Color.green)
                 .frame(width: 7, height: 7)
             Text("QEMU · \(QEMUInfo.emulationTarget) · 运行中")
-                .font(.caption2)
-                .fontWeight(.medium)
+                .font(.caption2.weight(.medium))
             Spacer()
             Text(QEMUInfo.displayMode)
                 .font(.caption2)
@@ -111,8 +111,7 @@ struct EmulatorDisplayView: View {
     private var screenInfo: some View {
         VStack(alignment: .leading, spacing: 8) {
             Label("画面说明", systemImage: "info.circle")
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .font(.subheadline.weight(.semibold))
             Text("这是引导测试真实捕获的 VGA 文本模式画面（QMP screendump，720×400）：SeaBIOS 自检输出之后，由仓库内 512 字节引导扇区通过 BIOS INT 10h 打印的测试报告。与「引导测试」页的串口日志来自同一次运行。")
                 .font(.footnote)
                 .foregroundStyle(.secondary)

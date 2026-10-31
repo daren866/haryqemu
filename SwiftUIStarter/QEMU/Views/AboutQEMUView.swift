@@ -52,7 +52,8 @@ struct AboutQEMUView: View {
                     .padding(.vertical, 4)
                 }
             }
-            .navigationTitle("关于", displayMode: .inline)
+            .navigationTitle("关于")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .navigationViewStyle(.stack)
     }
@@ -66,8 +67,7 @@ struct AboutQEMUView: View {
                 .frame(width: 24)
             VStack(alignment: .leading, spacing: 3) {
                 Text(title)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
+                    .font(.subheadline.weight(.medium))
                 Text(subtitle)
                     .font(.caption)
                     .foregroundStyle(.secondary)
