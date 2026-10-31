@@ -1,0 +1,54 @@
+name: QEMU Boot Test
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  boot-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          meson ninja-build libglib2.0-dev libpixman-1-dev \
+          zlib1g-dev python3-pil
+
+    - name: Build QEMU (x86_64-softmmu)
+      run: |
+        mkdir build
+        cd build
+        ../qemu/configure --target-list=x86_64-softmmu \
+          --disable-docs --disable-tools --disable-gtk --disable-sdl \
+          --disable-slirp --disable-capstone --disable-curl --disable-werror
+        ninja -j"$(nproc)"
+        ./qemu-system-x86_64 --version
+
+    - name: Run boot test
+      run: |
+        cd qemu-boot-test
+        QEMU_BIN="$GITHUB_WORKSPACE/build/qemu-system-x86_64" bash run-boot-test.sh
+
+    - name: Verify evidence
+      run: |
+        echo "=== serial.log ==="
+        cat qemu-boot-test/artifacts/serial.log
+        echo "=== screen.png ==="
+        ls -lh qemu-boot-test/artifacts/screen.png
+        grep -q "BOOT TEST PASSED" qemu-boot-test/artifacts/serial.log
+
+    - name: Upload evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: qemu-boot-test-evidence
+        path: |
+          qemu-boot-test/artifacts/serial.log
+          qemu-boot-test/artifacts/screen.png
+        retention-days: 30

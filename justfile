@@ -42,6 +42,17 @@ open: (generate)
 build-server: (generate)
     xcode-build-server config -workspace {{ project_name }}.xcworkspace -scheme {{ default_scheme }}
 
+# runs the QEMU x86 boot test (set QEMU_BIN to a local qemu-system-x86_64)
+[group('qemu')]
+boot-test qemu-bin := env_var_or_default('QEMU_BIN', 'qemu-system-x86_64'):
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if ! command -v "{{ qemu-bin }}" >/dev/null 2>&1; then
+        echo "找不到 qemu-system-x86_64，请先编译仓库内源码或安装 QEMU 后设置 QEMU_BIN"
+        exit 1
+    fi
+    cd qemu-boot-test && QEMU_BIN="{{ qemu-bin }}" bash run-boot-test.sh
+
 # formats code when tooling is available
 
 # format-configs

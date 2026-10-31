@@ -7,3 +7,7 @@ Derived/
 .DS_Store
 
 buildServer.json
+
+# QEMU 引导测试的本地中间产物（artifacts/ 下的实测证据会被提交）
+qemu-boot-test/build/
+qemu-boot-test/artifacts/*.ppm
